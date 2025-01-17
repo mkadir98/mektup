@@ -6,7 +6,18 @@ import 'screens/onboarding/type_selection_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+
+  // Initialize Mobile Ads SDK
   await MobileAds.instance.initialize();
+
+  // Test için
+  await MobileAds.instance.updateRequestConfiguration(
+    RequestConfiguration(
+      tagForChildDirectedTreatment: TagForChildDirectedTreatment.unspecified,
+      testDeviceIds: ['6B1276A20B2DE4841F1FCEF2523F88B1'],
+    ),
+  );
+
   runApp(const MektupApp());
 }
 
