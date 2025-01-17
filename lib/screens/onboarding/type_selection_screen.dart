@@ -34,7 +34,8 @@ class _TypeSelectionScreenState extends State<TypeSelectionScreen> {
     switch (_selectedType!) {
       case LetterType.visa:
         disclaimerTitle = 'Vize Başvurusu Bilgilendirme';
-        disclaimerMessage = '''Bu mektup, vize başvurunuz için bir destek belgesi niteliğindedir. Ancak:
+        disclaimerMessage =
+            '''Bu mektup, vize başvurunuz için bir destek belgesi niteliğindedir. Ancak:
 
 • Bu mektup, vizenizin onaylanacağının garantisi değildir
 • Her ülkenin vize politikaları ve gereksinimleri farklılık gösterebilir
@@ -47,7 +48,8 @@ Mektubu kullanmadan önce, başvuru yapacağınız ülkenin vize gereksinimlerin
         break;
       case LetterType.masters:
         disclaimerTitle = 'Yüksek Lisans Başvurusu Bilgilendirme';
-        disclaimerMessage = '''Bu motivasyon mektubu, yüksek lisans başvurunuz için hazırlanacaktır. Lütfen şu noktaları göz önünde bulundurun:
+        disclaimerMessage =
+            '''Bu motivasyon mektubu, yüksek lisans başvurunuz için hazırlanacaktır. Lütfen şu noktaları göz önünde bulundurun:
 
 • Bu mektup, başvurunuzun kabul edileceğinin garantisi değildir
 • Her üniversitenin kabul kriterleri farklılık gösterebilir
@@ -60,7 +62,8 @@ Mektubu göndermeden önce, başvuracağınız üniversitenin gereksinimlerini v
         break;
       case LetterType.job:
         disclaimerTitle = 'İş Başvurusu Bilgilendirme';
-        disclaimerMessage = '''Bu motivasyon mektubu, iş başvurunuz için hazırlanacaktır. Önemli noktalar:
+        disclaimerMessage =
+            '''Bu motivasyon mektubu, iş başvurunuz için hazırlanacaktır. Önemli noktalar:
 
 • Bu mektup, işe alınacağınızın garantisi değildir
 • Her şirketin farklı değerlendirme kriterleri olabilir
@@ -152,7 +155,8 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
               child: const Text('ANLADIM, DEVAM ET'),
             ),
@@ -173,10 +177,14 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : Colors.white,
+          color: isSelected
+              ? Theme.of(context).primaryColor.withOpacity(0.1)
+              : Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? Theme.of(context).primaryColor : Colors.grey.shade300,
+            color: isSelected
+                ? Theme.of(context).primaryColor
+                : Colors.grey.shade300,
             width: 2,
           ),
           boxShadow: isSelected
@@ -203,7 +211,8 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
               Icon(
                 icon,
                 size: 32,
-                color: isSelected ? Theme.of(context).primaryColor : Colors.grey,
+                color:
+                    isSelected ? Theme.of(context).primaryColor : Colors.grey,
               ),
               const SizedBox(height: 12),
               Text(
@@ -212,7 +221,9 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  color: isSelected ? Theme.of(context).primaryColor : Colors.black87,
+                  color: isSelected
+                      ? Theme.of(context).primaryColor
+                      : Colors.black87,
                 ),
               ),
             ],
@@ -233,7 +244,8 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
                 Expanded(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 32.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -299,7 +311,8 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 12),
                               ),
                               items: Language.values.map((Language language) {
                                 return DropdownMenuItem<Language>(
@@ -327,7 +340,9 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                                 elevation: 2,
-                                shadowColor: Theme.of(context).primaryColor.withOpacity(0.3),
+                                shadowColor: Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.3),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -371,5 +386,5 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
         ),
       ),
     );
-  }
+  } //deneme
 }
