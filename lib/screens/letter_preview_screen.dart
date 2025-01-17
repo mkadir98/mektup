@@ -10,6 +10,9 @@ import '../models/letter_data.dart';
 import '../models/enums.dart';
 import '../widgets/ai_loading_animation.dart';
 import '../widgets/ad_banner.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:share_plus/share_plus.dart';
 
 class LetterPreviewScreen extends StatefulWidget {
   final dynamic letterData;
@@ -32,6 +35,7 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
   bool _isLoading = true;
   String? _error;
   bool _isEditing = false;
+  String _letterContent = '';
 
   @override
   void initState() {
@@ -40,12 +44,14 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
   }
 
   String _getPromptForLetterType() {
-    String languagePrompt = 'Lütfen mektubu ${widget.language.displayName} dilinde oluştur.\n\n';
-    
+    String languagePrompt =
+        'Lütfen mektubu ${widget.language.displayName} dilinde oluştur.\n\n';
+
     switch (widget.letterType) {
       case LetterType.visa:
         final data = widget.letterData as VisaLetterData;
-        return languagePrompt + '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir turistik vize başvurusu motivasyon mektubu oluştur:
+        return languagePrompt +
+            '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir turistik vize başvurusu motivasyon mektubu oluştur:
           
           Kişisel Bilgiler: ${data.personalInfo}
           Başvurulan Konsolosluk: ${data.recipientName}
@@ -61,7 +67,8 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
 
       case LetterType.masters:
         final data = widget.letterData as MastersLetterData;
-        return languagePrompt + '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir yüksek lisans başvurusu motivasyon mektubu oluştur:
+        return languagePrompt +
+            '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir yüksek lisans başvurusu motivasyon mektubu oluştur:
           
           Tarih: ${data.date}
           Ad Soyad: ${data.fullName}
@@ -75,7 +82,8 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
 
       case LetterType.job:
         final data = widget.letterData as JobLetterData;
-        return languagePrompt + '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir iş başvurusu motivasyon mektubu oluştur:
+        return languagePrompt +
+            '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir iş başvurusu motivasyon mektubu oluştur:
           
           Gönderen Adresi: ${data.senderAddress}
           Alıcı Adresi: ${data.recipientAddress}
@@ -107,6 +115,7 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
         if (data['textResponse'] != null) {
           setState(() {
             _letterController.text = data['textResponse'];
+            _letterContent = data['textResponse'];
             _isLoading = false;
           });
         } else {
@@ -123,32 +132,41 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
     }
   }
 
-  Future<void> _saveLetter() async {
+  Future<pw.Document?> _generatePDF() async {
     try {
-      final directory = await getApplicationDocumentsDirectory();
-      final file = File('${directory.path}/letter_${DateTime.now().millisecondsSinceEpoch}.txt');
-      await file.writeAsString(_letterController.text);
-      
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Mektup başarıyla kaydedildi: ${file.path}'),
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        );
-      }
+      final pdf = pw.Document();
+
+      // Use a font that supports Unicode characters
+      final font = await pw.Font.ttf(
+          await rootBundle.load('fonts/NotoSans-Regular.ttf'));
+
+      pdf.addPage(
+        pw.Page(
+          build: (pw.Context context) {
+            return pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Text(
+                  _letterController.text,
+                  style: pw.TextStyle(
+                    font: font,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      );
+
+      return pdf;
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Mektup kaydedilemedi: $e'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          ),
+          SnackBar(content: Text('PDF oluşturulurken hata: $e')),
         );
       }
+      return null;
     }
   }
 
@@ -162,7 +180,8 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                      const Icon(Icons.error_outline,
+                          size: 48, color: Colors.red),
                       const SizedBox(height: 16),
                       Text(
                         'Mektup oluşturulurken bir hata oluştu:',
@@ -261,7 +280,8 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
                   SnackBar(
                     content: const Text('Mektup panoya kopyalandı'),
                     behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
                   ),
                 );
               },
@@ -278,9 +298,42 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
           const SizedBox(width: 16),
           Expanded(
             child: ElevatedButton.icon(
-              onPressed: _saveLetter,
-              icon: const Icon(Icons.save),
-              label: const Text('Kaydet'),
+              onPressed: () async {
+                try {
+                  print('Generating PDF...');
+                  final pdf = await _generatePDF();
+                  if (pdf != null) {
+                    print('PDF generated successfully');
+                    // Save PDF and share
+                    final directory = await getApplicationDocumentsDirectory();
+                    final file =
+                        File('${directory.path}/motivasyon_mektubu.pdf');
+                    print('Saving PDF to: ${file.path}');
+                    await file.writeAsBytes(await pdf.save());
+                    print('PDF saved successfully');
+
+                    if (mounted) {
+                      print('Sharing PDF...');
+                      await Share.shareXFiles(
+                        [XFile(file.path)],
+                        subject: 'Motivasyon Mektubu',
+                      );
+                      print('Share dialog opened');
+                    }
+                  } else {
+                    print('PDF generation returned null');
+                  }
+                } catch (e) {
+                  print('Error in send button: $e');
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Gönderme işlemi başarısız: $e')),
+                    );
+                  }
+                }
+              },
+              icon: const Icon(Icons.send),
+              label: const Text('Gönder'),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../models/letter_data.dart';
 import '../../models/enums.dart';
 import '../letter_preview_screen.dart';
+import '../../widgets/ai_info_box.dart';
 
 class VisaFormScreen extends StatefulWidget {
   final Language language;
@@ -38,12 +39,15 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
   int _currentStep = 0;
   final _scrollController = ScrollController();
 
-  InputDecoration _getInputDecoration(String label, {String? helperText, IconData? icon}) {
+  InputDecoration _getInputDecoration(String label,
+      {String? helperText, IconData? icon}) {
     return InputDecoration(
       labelText: label,
       helperText: helperText,
       helperMaxLines: 2,
-      prefixIcon: icon != null ? Icon(icon, size: 22, color: Colors.grey.shade600) : null,
+      prefixIcon: icon != null
+          ? Icon(icon, size: 22, color: Colors.grey.shade600)
+          : null,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
         borderSide: BorderSide(color: Colors.grey.shade300),
@@ -77,19 +81,13 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 color: Colors.grey.shade800,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Lütfen pasaportunuzda yazan bilgileri giriniz',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey.shade600,
-              ),
-            ),
+            const SizedBox(height: 16),
+            const AiInfoBox(),
             const SizedBox(height: 32),
             TextFormField(
               controller: _fullNameController,
-              decoration: _getInputDecoration('Ad Soyad', icon: Icons.person_outline),
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
+              decoration:
+                  _getInputDecoration('Ad Soyad', icon: Icons.person_outline),
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -99,13 +97,12 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 helperText: 'GG.AA.YYYY formatında',
                 icon: Icons.calendar_today,
               ),
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
             const SizedBox(height: 24),
             TextFormField(
               controller: _professionController,
-              decoration: _getInputDecoration('Meslek', icon: Icons.work_outline),
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
+              decoration:
+                  _getInputDecoration('Meslek', icon: Icons.work_outline),
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -114,7 +111,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 'Pasaport Numarası',
                 icon: Icons.badge_outlined,
               ),
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
           ],
         );
@@ -123,26 +119,20 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Seyahat Bilgileriniz',
+              'Seyahat Bilgileri',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.grey.shade800,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Lütfen seyahat planınızı giriniz',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey.shade600,
-              ),
-            ),
+            const SizedBox(height: 16),
+            const AiInfoBox(),
             const SizedBox(height: 32),
             TextFormField(
               controller: _consulateController,
-              decoration: _getInputDecoration('Başvurulan Konsolosluk', icon: Icons.flag_outlined),
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
+              decoration: _getInputDecoration('Başvurulan Konsolosluk',
+                  icon: Icons.flag_outlined),
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -152,7 +142,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 helperText: 'Gidiş-dönüş tarihleri',
                 icon: Icons.calendar_today,
               ),
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -162,7 +151,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 helperText: 'Toplam kalış süresi (gün)',
                 icon: Icons.timer_outlined,
               ),
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -173,7 +161,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 icon: Icons.question_answer_outlined,
               ),
               maxLines: 3,
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
           ],
         );
@@ -182,26 +169,20 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Konaklama Bilgileriniz',
+              'Konaklama Bilgileri',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.grey.shade800,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Lütfen konaklama bilgilerini giriniz',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey.shade600,
-              ),
-            ),
+            const SizedBox(height: 16),
+            const AiInfoBox(),
             const SizedBox(height: 32),
             TextFormField(
               controller: _hotelNameController,
-              decoration: _getInputDecoration('Konaklama Yeri Adı', icon: Icons.hotel_outlined),
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
+              decoration: _getInputDecoration('Konaklama Yeri Adı',
+                  icon: Icons.hotel_outlined),
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -211,7 +192,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 icon: Icons.location_on_outlined,
               ),
               maxLines: 2,
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -221,7 +201,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 helperText: 'Telefon/e-posta',
                 icon: Icons.phone_outlined,
               ),
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
           ],
         );
@@ -230,21 +209,15 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Ulaşım Bilgileriniz',
+              'Ulaşım Detayları',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.grey.shade800,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Lütfen ulaşım bilgilerini giriniz',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey.shade600,
-              ),
-            ),
+            const SizedBox(height: 16),
+            const AiInfoBox(),
             const SizedBox(height: 32),
             TextFormField(
               controller: _flightDetailsController,
@@ -254,7 +227,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 icon: Icons.flight_outlined,
               ),
               maxLines: 2,
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -265,7 +237,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 icon: Icons.directions_bus_outlined,
               ),
               maxLines: 2,
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
           ],
         );
@@ -274,21 +245,15 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Bağlayıcı Unsurlar',
+              'Bağlantılar',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.grey.shade800,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Lütfen bağlayıcı unsurları giriniz',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey.shade600,
-              ),
-            ),
+            const SizedBox(height: 16),
+            const AiInfoBox(),
             const SizedBox(height: 32),
             TextFormField(
               controller: _jobTiesController,
@@ -298,7 +263,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 icon: Icons.work_outline,
               ),
               maxLines: 2,
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -309,7 +273,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 icon: Icons.family_restroom_outlined,
               ),
               maxLines: 2,
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -320,7 +283,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 icon: Icons.home_outlined,
               ),
               maxLines: 2,
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
           ],
         );
@@ -336,24 +298,18 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 color: Colors.grey.shade800,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Lütfen maddi durumunuzu giriniz',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey.shade600,
-              ),
-            ),
+            const SizedBox(height: 16),
+            const AiInfoBox(),
             const SizedBox(height: 32),
             TextFormField(
               controller: _financialStatusController,
               decoration: _getInputDecoration(
                 'Maddi Durum Bilgisi',
-                helperText: 'Aylık geliriniz, birikimleriniz ve maddi durumunuzu detaylı açıklayın',
+                helperText:
+                    'Aylık geliriniz, birikimleriniz ve maddi durumunuzu detaylı açıklayın',
                 icon: Icons.attach_money_outlined,
               ),
               maxLines: 3,
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -372,21 +328,15 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'İletişim Bilgileriniz',
+              'Adres Bilgileri',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.grey.shade800,
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Lütfen iletişim bilgilerinizi giriniz',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey.shade600,
-              ),
-            ),
+            const SizedBox(height: 16),
+            const AiInfoBox(),
             const SizedBox(height: 32),
             TextFormField(
               controller: _senderAddressController,
@@ -395,7 +345,6 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
                 icon: Icons.location_on_outlined,
               ),
               maxLines: 3,
-              validator: (value) => value?.isEmpty ?? true ? 'Bu alan zorunludur' : null,
             ),
           ],
         );
@@ -404,204 +353,33 @@ class _VisaFormScreenState extends State<VisaFormScreen> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade200,
-                    offset: const Offset(0, 2),
-                    blurRadius: 8,
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios, size: 20),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                  const SizedBox(width: 8),
-                  const Expanded(
-                    child: Text(
-                      'Vize Başvuru Formu',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
-                color: Colors.grey.shade50,
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: List.generate(
-                          7,
-                          (index) => Expanded(
-                            child: Container(
-                              height: 4,
-                              margin: const EdgeInsets.symmetric(horizontal: 2),
-                              decoration: BoxDecoration(
-                                color: index <= _currentStep
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.grey.shade300,
-                                borderRadius: BorderRadius.circular(2),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 300),
-                        child: _buildStepContent(_currentStep),
-                      ),
-                      const SizedBox(height: 40),
-                      Row(
-                        children: [
-                          if (_currentStep > 0)
-                            Expanded(
-                              child: TextButton(
-                                onPressed: () => setState(() => _currentStep--),
-                                style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(vertical: 16),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Icon(Icons.arrow_back_rounded),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      'Geri',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          if (_currentStep > 0)
-                            const SizedBox(width: 16),
-                          Expanded(
-                            flex: 2,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (_validateCurrentStep()) {
-                                  if (_currentStep < 6) {
-                                    setState(() => _currentStep++);
-                                    _scrollController.animateTo(
-                                      0,
-                                      duration: const Duration(milliseconds: 300),
-                                      curve: Curves.easeOut,
-                                    );
-                                  } else {
-                                    _submitForm();
-                                  }
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: const Text('Lütfen tüm alanları doldurun'),
-                                      behavior: SnackBarBehavior.floating,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      backgroundColor: Colors.red.shade600,
-                                    ),
-                                  );
-                                }
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                elevation: 0,
-                                backgroundColor: Theme.of(context).primaryColor,
-                                foregroundColor: Colors.white,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    _currentStep == 6 ? 'Mektup Oluştur' : 'Devam Et',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  const Icon(Icons.arrow_forward_rounded),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  bool _validateCurrentStep() {
-    switch (_currentStep) {
-      case 0:
-        return _fullNameController.text.isNotEmpty &&
-               _birthDateController.text.isNotEmpty &&
-               _professionController.text.isNotEmpty &&
-               _passportNumberController.text.isNotEmpty;
-      case 1:
-        return _consulateController.text.isNotEmpty &&
-               _travelDatesController.text.isNotEmpty &&
-               _travelDurationController.text.isNotEmpty &&
-               _travelPurposeController.text.isNotEmpty;
-      case 2:
-        return _hotelNameController.text.isNotEmpty &&
-               _hotelAddressController.text.isNotEmpty &&
-               _hotelContactController.text.isNotEmpty;
-      case 3:
-        return _flightDetailsController.text.isNotEmpty &&
-               _localTransportController.text.isNotEmpty;
-      case 4:
-        return _jobTiesController.text.isNotEmpty &&
-               _familyTiesController.text.isNotEmpty &&
-               _propertyTiesController.text.isNotEmpty;
-      case 5:
-        return _financialStatusController.text.isNotEmpty;
-      case 6:
-        return _senderAddressController.text.isNotEmpty;
-      default:
-        return false;
-    }
+  bool _validateStep() {
+    // Her zaman true döndür - tüm alanlar boş bırakılabilir
+    return true;
   }
 
   void _submitForm() {
+    // Boş alanları "öneri yap" ile doldur
+    _fullNameController.text = _fullNameController.text.isEmpty ? "öneri yap" : _fullNameController.text;
+    _birthDateController.text = _birthDateController.text.isEmpty ? "öneri yap" : _birthDateController.text;
+    _professionController.text = _professionController.text.isEmpty ? "öneri yap" : _professionController.text;
+    _passportNumberController.text = _passportNumberController.text.isEmpty ? "öneri yap" : _passportNumberController.text;
+    _consulateController.text = _consulateController.text.isEmpty ? "öneri yap" : _consulateController.text;
+    _travelDatesController.text = _travelDatesController.text.isEmpty ? "öneri yap" : _travelDatesController.text;
+    _travelDurationController.text = _travelDurationController.text.isEmpty ? "öneri yap" : _travelDurationController.text;
+    _travelPurposeController.text = _travelPurposeController.text.isEmpty ? "öneri yap" : _travelPurposeController.text;
+    _hotelNameController.text = _hotelNameController.text.isEmpty ? "öneri yap" : _hotelNameController.text;
+    _hotelAddressController.text = _hotelAddressController.text.isEmpty ? "öneri yap" : _hotelAddressController.text;
+    _hotelContactController.text = _hotelContactController.text.isEmpty ? "öneri yap" : _hotelContactController.text;
+    _flightDetailsController.text = _flightDetailsController.text.isEmpty ? "öneri yap" : _flightDetailsController.text;
+    _localTransportController.text = _localTransportController.text.isEmpty ? "öneri yap" : _localTransportController.text;
+    _jobTiesController.text = _jobTiesController.text.isEmpty ? "öneri yap" : _jobTiesController.text;
+    _familyTiesController.text = _familyTiesController.text.isEmpty ? "öneri yap" : _familyTiesController.text;
+    _propertyTiesController.text = _propertyTiesController.text.isEmpty ? "öneri yap" : _propertyTiesController.text;
+    _financialStatusController.text = _financialStatusController.text.isEmpty ? "öneri yap" : _financialStatusController.text;
+    _sponsorshipController.text = _sponsorshipController.text.isEmpty ? "öneri yap" : _sponsorshipController.text;
+    _senderAddressController.text = _senderAddressController.text.isEmpty ? "öneri yap" : _senderAddressController.text;
+
     final personalInfo = '''
 Ad Soyad: ${_fullNameController.text}
 Doğum Tarihi: ${_birthDateController.text}
@@ -648,6 +426,188 @@ ${_sponsorshipController.text.isNotEmpty ? 'Sponsor: ${_sponsorshipController.te
           letterData: letterData,
           letterType: LetterType.visa,
           language: widget.language,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () {
+          // Klavyeyi kapat
+          FocusScope.of(context).unfocus();
+        },
+        child: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade200,
+                      offset: const Offset(0, 2),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios, size: 20),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    const SizedBox(width: 8),
+                    const Expanded(
+                      child: Text(
+                        'Vize Başvuru Formu',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  color: Colors.grey.shade50,
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 32),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: List.generate(
+                            7,
+                            (index) => Expanded(
+                              child: Container(
+                                height: 4,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 2),
+                                decoration: BoxDecoration(
+                                  color: index <= _currentStep
+                                      ? Theme.of(context).primaryColor
+                                      : Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(2),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          child: _buildStepContent(_currentStep),
+                        ),
+                        const SizedBox(height: 40),
+                        Row(
+                          children: [
+                            if (_currentStep > 0)
+                              Expanded(
+                                child: TextButton(
+                                  onPressed: () =>
+                                      setState(() => _currentStep--),
+                                  style: TextButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Icon(Icons.arrow_back_rounded),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Geri',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            if (_currentStep > 0) const SizedBox(width: 16),
+                            Expanded(
+                              flex: 2,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (_validateStep()) {
+                                    if (_currentStep < 6) {
+                                      setState(() => _currentStep++);
+                                      _scrollController.animateTo(
+                                        0,
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        curve: Curves.easeOut,
+                                      );
+                                    } else {
+                                      _submitForm();
+                                    }
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: const Text(
+                                            'Lütfen tüm alanları doldurun'),
+                                        behavior: SnackBarBehavior.floating,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        backgroundColor: Colors.red.shade600,
+                                      ),
+                                    );
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  elevation: 0,
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  foregroundColor: Colors.white,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      _currentStep == 6
+                                          ? 'Mektup Oluştur'
+                                          : 'Devam Et',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    const Icon(Icons.arrow_forward_rounded),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

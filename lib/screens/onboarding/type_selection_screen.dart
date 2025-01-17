@@ -253,7 +253,7 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
                               height: 1.5,
                             ),
                           ),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 32),
                           Text(
                             'Mektup Türü',
                             style: TextStyle(
@@ -273,10 +273,9 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
                             children: [
                               _buildTypeCard(LetterType.visa, Icons.flight),
                               _buildTypeCard(LetterType.masters, Icons.school),
-                              _buildTypeCard(LetterType.job, Icons.work),
                             ],
                           ),
-                          const SizedBox(height: 32),
+                          const SizedBox(height: 24),
                           Text(
                             'Mektup Dili',
                             style: TextStyle(
@@ -299,40 +298,51 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
                                   borderSide: BorderSide.none,
                                 ),
                                 filled: true,
-                                fillColor: Colors.grey.shade50,
-                                hintText: 'Dil seçin',
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                fillColor: Colors.white,
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                               ),
-                              items: Language.values.map((language) {
-                                return DropdownMenuItem(
+                              items: Language.values.map((Language language) {
+                                return DropdownMenuItem<Language>(
                                   value: language,
                                   child: Text(language.displayName),
                                 );
                               }).toList(),
-                              onChanged: (Language? value) {
-                                if (value != null) {
-                                  setState(() {
-                                    _selectedLanguage = value;
-                                  });
-                                }
+                              onChanged: (Language? newValue) {
+                                setState(() {
+                                  _selectedLanguage = newValue!;
+                                });
                               },
                             ),
                           ),
-                          const SizedBox(height: 40),
-                          ElevatedButton(
-                            onPressed: _navigateToNextScreen,
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                          const SizedBox(height: 32),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 56,
+                            child: ElevatedButton(
+                              onPressed: _navigateToNextScreen,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Theme.of(context).primaryColor,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                elevation: 2,
+                                shadowColor: Theme.of(context).primaryColor.withOpacity(0.3),
                               ),
-                              elevation: 2,
-                            ),
-                            child: const Text(
-                              'Devam Et',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Devam Et',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      letterSpacing: 0.5,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Icon(Icons.arrow_forward, size: 20),
+                                ],
                               ),
                             ),
                           ),
@@ -341,7 +351,20 @@ Mektubu göndermeden önce, başvuracağınız pozisyonun gereksinimlerini ve ş
                     ),
                   ),
                 ),
-                const AdBanner(),
+                Container(
+                  padding: const EdgeInsets.all(24.0),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, -5),
+                      ),
+                    ],
+                  ),
+                  child: const AdBanner(),
+                ),
               ],
             );
           },

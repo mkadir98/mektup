@@ -43,8 +43,10 @@ class LetterForm extends StatefulWidget {
 class _LetterFormState extends State<LetterForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _recipientAddressController = TextEditingController();
-  final TextEditingController _recipientNameController = TextEditingController();
+  final TextEditingController _recipientAddressController =
+      TextEditingController();
+  final TextEditingController _recipientNameController =
+      TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   String? _generatedLetter;
   bool _isLoading = false;
@@ -52,11 +54,13 @@ class _LetterFormState extends State<LetterForm> {
   Language _selectedLanguage = Language.turkish;
 
   String _getPromptForLetterType() {
-    String languagePrompt = 'Lütfen mektubu ${_selectedLanguage.displayName} dilinde oluştur.\n\n';
-    
+    String languagePrompt =
+        'Lütfen mektubu ${_selectedLanguage.displayName} dilinde oluştur.\n\n';
+
     switch (_selectedLetterType) {
       case LetterType.job:
-        return languagePrompt + '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir iş başvurusu motivasyon mektubu oluştur:
+        return languagePrompt +
+            '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir iş başvurusu motivasyon mektubu oluştur:
           
           Gönderen Adresi: ${_addressController.text}
           Alıcı Adresi: ${_recipientAddressController.text}
@@ -71,7 +75,8 @@ class _LetterFormState extends State<LetterForm> {
           4. Motivasyon paragrafı
           5. Teşekkür metni''';
       case LetterType.masters:
-        return languagePrompt + '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir yüksek lisans başvurusu motivasyon mektubu oluştur:
+        return languagePrompt +
+            '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir yüksek lisans başvurusu motivasyon mektubu oluştur:
           
           Gönderen Adresi: ${_addressController.text}
           Alıcı Adresi: ${_recipientAddressController.text}
@@ -87,7 +92,8 @@ class _LetterFormState extends State<LetterForm> {
           5. Gelecek planları
           6. Teşekkür metni''';
       case LetterType.visa:
-        return languagePrompt + '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir turistik vize başvurusu motivasyon mektubu oluştur:
+        return languagePrompt +
+            '''Lütfen aşağıdaki bilgileri kullanarak profesyonel bir turistik vize başvurusu motivasyon mektubu oluştur:
           
           Gönderen Adresi: ${_addressController.text}
           Alıcı Adresi: ${_recipientAddressController.text}
@@ -196,7 +202,7 @@ class _LetterFormState extends State<LetterForm> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         debugPrint('Çözümlenen veri: $data');
-        
+
         if (data['textResponse'] != null) {
           setState(() {
             _generatedLetter = data['textResponse'];
@@ -205,7 +211,8 @@ class _LetterFormState extends State<LetterForm> {
           throw Exception('API yanıtında mektup bulunamadı: $data');
         }
       } else {
-        throw Exception('API yanıt vermedi: ${response.statusCode} - ${response.body}');
+        throw Exception(
+            'API yanıt vermedi: ${response.statusCode} - ${response.body}');
       }
     } catch (e) {
       debugPrint('Hata oluştu: $e');
@@ -412,4 +419,4 @@ class _LetterFormState extends State<LetterForm> {
     _nameController.dispose();
     super.dispose();
   }
-} 
+}
