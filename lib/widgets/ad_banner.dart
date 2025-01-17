@@ -19,7 +19,7 @@ class _AdBannerState extends State<AdBanner> {
   }
 
   void _loadAd() {
-    final adUnitId = 'ca-app-pub-3940256099942544/2934735716';
+    final adUnitId = 'ca-app-pub-7310994392910958/8503221296';
     
     _bannerAd = BannerAd(
       adUnitId: adUnitId,
@@ -42,21 +42,19 @@ class _AdBannerState extends State<AdBanner> {
   }
 
   @override
-  void dispose() {
-    _bannerAd?.dispose();
-    super.dispose();
+  Widget build(BuildContext context) {
+    return _isLoaded && _bannerAd != null
+        ? SizedBox(
+            width: _bannerAd!.size.width.toDouble(),
+            height: _bannerAd!.size.height.toDouble(),
+            child: AdWidget(ad: _bannerAd!),
+          )
+        : const SizedBox.shrink();
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (_bannerAd == null || !_isLoaded) {
-      return const SizedBox(height: 50);
-    }
-
-    return Container(
-      width: _bannerAd!.size.width.toDouble(),
-      height: _bannerAd!.size.height.toDouble(),
-      child: AdWidget(ad: _bannerAd!),
-    );
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
   }
 }
