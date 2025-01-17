@@ -11,6 +11,7 @@ void main() async {
   await MobileAds.instance.initialize();
 
   // Test için
+  //website
   await MobileAds.instance.updateRequestConfiguration(
     RequestConfiguration(
       tagForChildDirectedTreatment: TagForChildDirectedTreatment.unspecified,
