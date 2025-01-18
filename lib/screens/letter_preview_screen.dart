@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:convert';
 import '../models/letter_data.dart';
 import '../models/enums.dart';
@@ -13,6 +14,7 @@ import '../widgets/ad_banner.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:share_plus/share_plus.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LetterPreviewScreen extends StatefulWidget {
   final dynamic letterData;
@@ -170,6 +172,14 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
     }
   }
 
+  Future<bool> _isIOSSimulator() async {
+    if (Platform.isIOS) {
+      final deviceInfo = await DeviceInfoPlugin().iosInfo;
+      return !deviceInfo.isPhysicalDevice;
+    }
+    return false;
+  }
+
   Widget _buildContent() {
     return _isLoading
         ? const AILoadingAnimation()
@@ -314,17 +324,43 @@ class _LetterPreviewScreenState extends State<LetterPreviewScreen> {
 
                     if (mounted) {
                       print('Sharing PDF...');
-                      await Share.shareXFiles(
+                      final box = context.findRenderObject() as RenderBox?;
+                      final Rect? sharePositionOrigin = box != null
+                          ? Rect.fromPoints(
+                              box.localToGlobal(Offset.zero),
+                              box.localToGlobal(Offset.zero) + Offset(box.size.width, box.size.height),
+                            )
+                          : null;
+
+                      if (Platform.isIOS) {
+                        // Check if running on simulator
+                        if (await _isIOSSimulator()) {
+                          if (mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('PDF dosyası kaydedildi. Paylaşma özelliği iOS simulatöründe çalışmayabilir.'),
+                                duration: Duration(seconds: 5),
+                              ),
+                            );
+                          }
+                          return;
+                        }
+                      }
+
+                      final result = await Share.shareXFiles(
                         [XFile(file.path)],
                         subject: 'Motivasyon Mektubu',
+                        sharePositionOrigin: Platform.isIOS ? sharePositionOrigin : null,
                       );
-                      print('Share dialog opened');
+                      
+                      print('Share result: ${result.status}');
                     }
                   } else {
                     print('PDF generation returned null');
                   }
-                } catch (e) {
+                } catch (e, stackTrace) {
                   print('Error in send button: $e');
+                  print('Stack trace: $stackTrace');
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Gönderme işlemi başarısız: $e')),

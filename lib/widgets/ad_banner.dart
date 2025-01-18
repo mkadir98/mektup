@@ -63,20 +63,33 @@ class _AdBannerState extends State<AdBanner> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return _isLoaded && _bannerAd != null
-        ? Container(
-            alignment: Alignment.bottomCenter,
-            width: _bannerAd!.size.width.toDouble(),
-            height: _bannerAd!.size.height.toDouble(),
-            child: AdWidget(ad: _bannerAd!),
-          )
-        : const SizedBox.shrink();
+  void dispose() {
+    _bannerAd?.dispose();
+    _bannerAd = null;
+    super.dispose();
   }
 
   @override
-  void dispose() {
-    _bannerAd?.dispose();
-    super.dispose();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_bannerAd == null) {
+      _loadAd();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_isLoaded || _bannerAd == null) {
+      return const SizedBox.shrink();
+    }
+    
+    return SafeArea(
+      child: Container(
+        alignment: Alignment.bottomCenter,
+        width: _bannerAd!.size.width.toDouble(),
+        height: _bannerAd!.size.height.toDouble(),
+        child: AdWidget(ad: _bannerAd!),
+      ),
+    );
   }
 }
